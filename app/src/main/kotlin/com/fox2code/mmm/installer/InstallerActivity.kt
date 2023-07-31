@@ -380,7 +380,7 @@ class InstallerActivity : FoxActivity() {
             }
             installerMonitor = InstallerMonitor(installScript)
             installJob = Shell.cmd(
-                "export ASH_STANDALONE=1 exec /data/adb/magisk/busybox ash",
+                "export ASH_STANDALONE=1 exec /data/adb/ksu/bin/busybox ash",
                 "export MMM_EXT_SUPPORT=1",
                 "export MMM_USER_LANGUAGE=" + this.resources.configuration.locales[0].toLanguageTag(),
                 "export MMM_APP_VERSION=" + BuildConfig.VERSION_NAME,
@@ -505,9 +505,9 @@ class InstallerActivity : FoxActivity() {
                 installCommand =
                     ashExec + " \"" + installExecutable.absolutePath + "\"" + " 3 1 \"" + file.absolutePath + "\""
             } else if (InstallerInitializer.peekMagiskVersion() >= Constants.MAGISK_VER_CODE_INSTALL_COMMAND && (compatFlags and AppUpdateManager.FLAG_COMPAT_MAGISK_CMD != 0 || noExtensions || MainApplication.isUsingMagiskCommand)) {
-                installCommand = "magisk --install-module \"" + file.absolutePath + "\""
+                installCommand = "ksud module install \"" + file.absolutePath + "\""
                 installExecutable =
-                    File(if (mgskPath == "/sbin") "/sbin/magisk" else "/system/bin/magisk")
+                    File(if (mgskPath == "/sbin") "/sbin/magisk" else "/data/adb/ksu/bin/ksud")
                 magiskCmdLine = true
             } else if (moduleId != null) {
                 installExecutable = extractInstallScript("module_installer_compat.sh")

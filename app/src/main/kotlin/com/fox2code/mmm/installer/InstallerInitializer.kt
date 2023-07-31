@@ -26,6 +26,9 @@ class InstallerInitializer {
         private val MAGISK_SYSTEM_EX = File("/system/xbin/magisk")
         private val HAS_MAGISK =
             MAGISK_SBIN.exists() || MAGISK_SYSTEM.exists() || MAGISK_SYSTEM_EX.exists()
+	private val KERNELSU_KSUD = File("/data/adb/ksu/bin/ksud")
+	private val HAS_KERNELSU =
+	    KERNELSU_KSUD.exists()
         private var mgskPth: String? = null
         private var mgskVerCode = 0
         private var hsRmdsk = false
@@ -40,7 +43,7 @@ class InstallerInitializer {
                 if (mgskPth != null && hasRoot !== java.lang.Boolean.FALSE) {
                     return null
                 }
-                if (!HAS_MAGISK) {
+                if (!HAS_MAGISK && !HAS_KERNELSU) {
                     return NotificationType.NO_MAGISK
                 } else if (hasRoot !== java.lang.Boolean.TRUE) {
                     return NotificationType.ROOT_DENIED
